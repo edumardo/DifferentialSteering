@@ -10,14 +10,14 @@ Joystick joystick(pinJoystickX, pinJoystickY, pinJoystickButton, noActionLimit);
 
 void setup()
 {
-	Serial.begin(9600);
+    Serial.begin(9600);
 }
 
 void loop()
 {
     // INPUTS (-127..+127)
-	int XValue = map(joystick.getXValue(), 0, 1023, -127, 127);
-	int YValue = map(joystick.getYValue(), 0, 1023, 127, -127); // (127..-127): YValue decreases when push forward the Y axis.
+    int XValue = map(joystick.getXValue(), 0, 1023, -127, 127);
+    int YValue = map(joystick.getYValue(), 0, 1023, 127, -127); // (127..-127): YValue decreases when push forward the Y axis.
     bool buttonValue = joystick.getbuttonValue();
 
     // OUTPUTS
@@ -65,10 +65,10 @@ void loop()
     nMotMixL = (1.0 - fPivScale) * nMotPremixL + fPivScale * ( nPivSpeed);
     nMotMixR = (1.0 - fPivScale) * nMotPremixR + fPivScale * (-nPivSpeed);
 
-	Serial.print("XValue: "); Serial.print(XValue);
-	Serial.print(" | YValue: ");Serial.print(YValue);
+    Serial.print("XValue: "); Serial.print(XValue);
+    Serial.print(" | YValue: ");Serial.print(YValue);
     Serial.print(" | nMotMixL: ");Serial.print(nMotMixL);
     Serial.print(" | nMotMixR: ");Serial.print(nMotMixR);
     Serial.println();
-	delay(serialDelay);
+    delay(serialDelay);
 }

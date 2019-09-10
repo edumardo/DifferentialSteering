@@ -1,5 +1,4 @@
-#include "Arduino.h"
-#include <Joystick.h>
+#include "Joystick.h"
 
 const int serialDelay = 200;
 int pinJoystickX = A0;

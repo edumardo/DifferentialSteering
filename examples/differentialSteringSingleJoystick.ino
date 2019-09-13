@@ -23,8 +23,8 @@ void loop()
     bool buttonValue = joystick.getbuttonValue();
 
     // OUTPUTS
-    int     nMotMixL;           // Motor (left)  mixed output           (-128..+127)
-    int     nMotMixR;           // Motor (right) mixed output           (-128..+127)
+    int     nMotMixL;           // Motor (left)  mixed output           (-127..+127)
+    int     nMotMixR;           // Motor (right) mixed output           (-127..+127)
 
     // CONFIG
     // - fPivYLimt  : The threshold at which the pivot action starts

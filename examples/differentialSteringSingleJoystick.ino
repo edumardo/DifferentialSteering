@@ -4,19 +4,22 @@ const int serialDelay = 200;
 int pinJoystickX = A0;
 int pinJoystickY = A1;
 int pinJoystickButton = 5;
-int noActionLimit = 100;
-Joystick joystick(pinJoystickX, pinJoystickY, pinJoystickButton, noActionLimit);
+int noActionLimit = 0;
+int minRange = -127;
+int maxRange = 127;
+Joystick joystick(pinJoystickX, pinJoystickY, pinJoystickButton, noActionLimit, minRange, maxRange);
 
 void setup()
 {
     Serial.begin(9600);
+    joystick.invertYAxis(); // Y-axis decreases when I push forward in my hardware
 }
 
 void loop()
 {
     // INPUTS (-127..+127)
-    int XValue = map(joystick.getXValue(), 0, 1023, -127, 127);
-    int YValue = map(joystick.getYValue(), 0, 1023, 127, -127); // (127..-127): YValue decreases when push forward the Y axis.
+    int XValue = joystick.getXValue();
+    int YValue = joystick.getYValue();
     bool buttonValue = joystick.getbuttonValue();
 
     // OUTPUTS

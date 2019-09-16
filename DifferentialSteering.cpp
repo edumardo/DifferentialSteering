@@ -2,8 +2,8 @@
 
 DifferentialSteering::DifferentialSteering(int fPivYLimit)
 {
-    leftMotor = 0;
-    rightMotor = 0;
+    m_leftMotor = 0;
+    m_rightMotor = 0;
     m_fPivYLimit = fPivYLimit;
 }
 
@@ -38,17 +38,17 @@ void DifferentialSteering::computeMotors(int XValue, int YValue)
     fPivScale = (abs(YValue) > m_fPivYLimit) ? 0.0 : (1.0 - abs(YValue) / m_fPivYLimit);
 
     // Calculate final mix of Drive and Pivot
-    leftMotor= (1.0 - fPivScale) * nMotPremixL + fPivScale * ( nPivSpeed);
-    rightMotor = (1.0 - fPivScale) * nMotPremixR + fPivScale * (-nPivSpeed);
+    m_leftMotor= (1.0 - fPivScale) * nMotPremixL + fPivScale * ( nPivSpeed);
+    m_rightMotor = (1.0 - fPivScale) * nMotPremixR + fPivScale * (-nPivSpeed);
 }
 
 int DifferentialSteering::computedLeftMotor()
 {
-    return leftMotor;
+    return m_leftMotor;
 }
 int DifferentialSteering::computedRightMotor()
 {
-    return rightMotor;
+    return m_rightMotor;
 }
 
 String DifferentialSteering::toString()

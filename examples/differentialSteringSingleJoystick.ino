@@ -17,31 +17,29 @@ void setup()
 
 void loop()
 {
-    // INPUTS (-127..+127)
+    // Inputs (-127..+127)
     int XValue = joystick.getXValue();
     int YValue = joystick.getYValue();
-    bool buttonValue = joystick.getbuttonValue();
     int lowLimit = joystick.getLowLimit();
     int highLimit = joystick.getHighLimit();
     String status = " | idle";
 
-    // OUTPUTS
-    int     nMotMixL = 0.0;           // Motor (left)  mixed output           (-127..+127)
-    int     nMotMixR = 0.0;           // Motor (right) mixed output           (-127..+127)
+    // Outputs
+    int     nMotMixL = 0;     // Motor (left)  mixed output           (-127..+127)
+    int     nMotMixR = 0;     // Motor (right) mixed output           (-127..+127)
 
-    // CONFIG
     // - fPivYLimt  : The threshold at which the pivot action starts
     //                This threshold is measured in units on the Y-axis
     //                away from the X-axis (Y=0). A greater value will assign
     //                more of the joystick's range to pivot actions.
     //                Allowable range: (0..+127)
-    float fPivYLimit = 32.0;
+    int fPivYLimit = 32;
 
     // TEMP VARIABLES
     float   nMotPremixL = 0;    // Motor (left)  premixed output        (-127..+127)
     float   nMotPremixR = 0;    // Motor (right) premixed output        (-127..+127)
-    int     nPivSpeed = 0;  // Pivot Speed                          (-127..+127)
-    float   fPivScale = 0;  // Balance scale b/w drive and pivot    (   0..1   )
+    int     nPivSpeed = 0;      // Pivot Speed                          (-127..+127)
+    float   fPivScale = 0;      // Balance scale b/w drive and pivot    (   0..1   )
 
     // Outside no action limit
     if (!((XValue > lowLimit) && (XValue < highLimit) && (YValue > lowLimit) && (YValue < highLimit)))
@@ -75,12 +73,13 @@ void loop()
         nMotMixL = (1.0 - fPivScale) * nMotPremixL + fPivScale * ( nPivSpeed);
         nMotMixR = (1.0 - fPivScale) * nMotPremixR + fPivScale * (-nPivSpeed);
     }
+
     Serial.print("XValue: "); Serial.print(XValue);
     Serial.print(" | YValue: ");Serial.print(YValue);
-    Serial.print(status);Serial.print(" ("); Serial.print(fPivYLimit);Serial.print(")");
-    Serial.print(" ("); Serial.print(nPivSpeed);Serial.print(")");
-    Serial.print(" ("); Serial.print(fPivScale);Serial.print(")");
-    Serial.print(" ("); Serial.print(nMotMixL); Serial.print(","); Serial.print(nMotMixR);Serial.print(")");
+    Serial.print(status);Serial.print(" ("); Serial.print(fPivYLimit);
+    Serial.print(", "); Serial.print(nPivSpeed);
+    Serial.print(", "); Serial.print(fPivScale);Serial.print(")");
+    Serial.print(" ["); Serial.print(nMotMixL); Serial.print(","); Serial.print(nMotMixR);Serial.print("]");
     Serial.println();
     delay(serialDelay);
 }

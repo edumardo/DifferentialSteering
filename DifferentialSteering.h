@@ -9,8 +9,8 @@ class DifferentialSteering
 {
     private:
         int m_fPivYLimit;
-        int leftMotor;
-        int rightMotor;
+        int m_leftMotor;
+        int m_rightMotor;
 
     public:
         DifferentialSteering(int fPivYLimit);

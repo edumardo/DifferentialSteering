@@ -1,6 +1,8 @@
 #include "Joystick.h"
+#include "DifferentialSteering.h"
 
 const int serialDelay = 200;
+
 int pinJoystickX = A0;
 int pinJoystickY = A1;
 int pinJoystickButton = 5;
@@ -8,6 +10,9 @@ int noActionLimit = 25;
 int minRange = -127;
 int maxRange = 127;
 Joystick joystick(pinJoystickX, pinJoystickY, pinJoystickButton, noActionLimit, minRange, maxRange);
+
+int fPivYLimit = 32;
+DifferentialSteering DiffSteer(fPivYLimit);
 
 void setup()
 {
@@ -41,10 +46,17 @@ void loop()
     int     nPivSpeed = 0;      // Pivot Speed                          (-127..+127)
     float   fPivScale = 0;      // Balance scale b/w drive and pivot    (   0..1   )
 
+    int leftMotor = 0;
+    int rightMotor = 0;
+
     // Outside no action limit
     if (!((XValue > lowLimit) && (XValue < highLimit) && (YValue > lowLimit) && (YValue < highLimit)))
     {
         status = " | Differential";
+
+        DiffSteer.computeMotors(XValue, YValue);
+        leftMotor = DiffSteer.computedLeftMotor();
+        rightMotor = DiffSteer.computedRightMotor();
 
         // Calculate Drive Turn output due to Joystick X input
         if (YValue >= 0)
@@ -80,6 +92,7 @@ void loop()
     Serial.print(", "); Serial.print(nPivSpeed);
     Serial.print(", "); Serial.print(fPivScale);Serial.print(")");
     Serial.print(" ["); Serial.print(nMotMixL); Serial.print(","); Serial.print(nMotMixR);Serial.print("]");
+    Serial.print(" ["); Serial.print(leftMotor); Serial.print(","); Serial.print(rightMotor);Serial.print("]");
     Serial.println();
     delay(serialDelay);
 }

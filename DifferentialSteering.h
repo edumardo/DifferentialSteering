@@ -18,6 +18,5 @@ class DifferentialSteering
         int computedLeftMotor();
         int computedRightMotor();
         String toString();
-        void toSerial();
 };
 #endif

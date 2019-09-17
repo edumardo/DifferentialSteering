@@ -55,7 +55,3 @@ String DifferentialSteering::toString()
 {
     String str = "";
 }
-void DifferentialSteering::toSerial()
-{
-    Serial.println(toString());
-}

@@ -16,7 +16,7 @@ or directly writing the include statement in your code:
 This sketch uses the [Joystick library](https://github.com/edumardo/Joystick) I wrote to control with a single dual axis joystick.
 
 ## Using the library
-In [examples/differentialSteringSingleJoystick.ino](examples\differentialSteringSingleJoystick.ino) yo can see the library in action.
+In [examples/differentialSteringSingleJoystick.ino](examples/differentialSteringSingleJoystick.ino) yo can see the library in action.
 
 First, initialize a *DifferentialSteering* object with the proper pivot limit:
 ```

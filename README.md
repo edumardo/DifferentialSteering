@@ -21,7 +21,10 @@ In [examples/differentialSteringSingleJoystick.ino](examples/differentialStering
 First, initialize a *DifferentialSteering* object with the proper pivot limit:
 ```
     int fPivYLimit = 32;
-    DifferentialSteering DiffSteer(fPivYLimit);
+    DifferentialSteering DiffSteer;
+
+    void setup () {
+        DiffSteer.begin(fPivYLimit);
 ```
 Then, compute differential steering with the joystick outputs. Keep in mind that the inputs of *computeMotors* method have to be mapped to [-127, 127]:
 ```

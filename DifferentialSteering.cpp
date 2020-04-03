@@ -1,9 +1,13 @@
 #include "DifferentialSteering.h"
 
-DifferentialSteering::DifferentialSteering(int fPivYLimit)
+DifferentialSteering::DifferentialSteering()
 {
     m_leftMotor = 0;
     m_rightMotor = 0;
+}
+
+void DifferentialSteering::begin(int fPivYLimit)
+{
     m_fPivYLimit = fPivYLimit;
 }
 

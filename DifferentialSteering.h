@@ -18,7 +18,8 @@ class DifferentialSteering
         int m_rightMotor;
 
     public:
-        DifferentialSteering(int fPivYLimit);
+        DifferentialSteering();
+        void begin(int fPivYLimit);
         void computeMotors(int XValue, int YValue);
         int computedLeftMotor();
         int computedRightMotor();

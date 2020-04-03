@@ -12,12 +12,13 @@ int maxRange = 127;
 Joystick joystick(pinJoystickX, pinJoystickY, pinJoystickButton, noActionLimit, minRange, maxRange);
 
 int fPivYLimit = 32;
-DifferentialSteering DiffSteer(fPivYLimit);
+DifferentialSteering DiffSteer;
 
 void setup()
 {
     Serial.begin(9600);
     joystick.invertYAxis(); // Y-axis decreases when I push forward in my hardware
+    DiffSteer.begin(fPivYLimit);
 }
 
 void loop()

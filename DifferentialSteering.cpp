@@ -1,31 +1,26 @@
 #include "DifferentialSteering.h"
 
-DifferentialSteering::DifferentialSteering()
-{
+DifferentialSteering::DifferentialSteering() {
     m_leftMotor = 0;
     m_rightMotor = 0;
 }
 
-void DifferentialSteering::begin(int fPivYLimit)
-{
+void DifferentialSteering::begin(int fPivYLimit) {
     m_fPivYLimit = fPivYLimit;
 }
 
-void DifferentialSteering::computeMotors(int XValue, int YValue)
-{
+void DifferentialSteering::computeMotors(int XValue, int YValue) {
     float   nMotPremixL = 0;    // Motor (left)  premixed output        (-127..+127)
     float   nMotPremixR = 0;    // Motor (right) premixed output        (-127..+127)
     int     nPivSpeed = 0;      // Pivot Speed                          (-127..+127)
     float   fPivScale = 0;      // Balance scale b/w drive and pivot    (   0..1   )
 
     // Calculate Drive Turn output due to Joystick X input
-    if (YValue >= 0)
-    {
+    if (YValue >= 0) {
         // Forward
         nMotPremixL = (XValue >= 0) ? COMPUTERANGE : (COMPUTERANGE + XValue);
         nMotPremixR = (XValue >= 0) ? (COMPUTERANGE - XValue) : COMPUTERANGE;
-    } else
-    {
+    } else {
         // Reverse
         nMotPremixL = (XValue >= 0) ? (COMPUTERANGE - XValue) : COMPUTERANGE;
         nMotPremixR = (XValue >= 0) ? COMPUTERANGE : (COMPUTERANGE + XValue);
@@ -42,26 +37,22 @@ void DifferentialSteering::computeMotors(int XValue, int YValue)
     fPivScale = (abs(YValue) > m_fPivYLimit) ? 0.0 : (1.0 - abs(YValue) / m_fPivYLimit);
 
     // Calculate final mix of Drive and Pivot
-    m_leftMotor=   (1.0 - fPivScale) * nMotPremixL + fPivScale * ( nPivSpeed);
+    m_leftMotor  = (1.0 - fPivScale) * nMotPremixL + fPivScale * ( nPivSpeed);
     m_rightMotor = (1.0 - fPivScale) * nMotPremixR + fPivScale * (-nPivSpeed);
 }
 
-int DifferentialSteering::computedLeftMotor()
-{
+int DifferentialSteering::computedLeftMotor() {
     return m_leftMotor;
 }
-int DifferentialSteering::computedRightMotor()
-{
+int DifferentialSteering::computedRightMotor() {
     return m_rightMotor;
 }
 
-byte DifferentialSteering::getComputeRange()
-{
+byte DifferentialSteering::getComputeRange() {
     return COMPUTERANGE;
 }
 
-String DifferentialSteering::toString()
-{
+String DifferentialSteering::toString() {
     String str = "";
     return (str + "Pivot threshold: " + m_fPivYLimit + " | Left Motor: " + m_leftMotor + " | Right Motor: " + m_rightMotor);
 }

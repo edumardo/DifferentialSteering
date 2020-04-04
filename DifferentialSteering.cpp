@@ -55,6 +55,11 @@ int DifferentialSteering::computedRightMotor()
     return m_rightMotor;
 }
 
+byte DifferentialSteering::getComputeRange()
+{
+    return COMPUTERANGE;
+}
+
 String DifferentialSteering::toString()
 {
     String str = "";

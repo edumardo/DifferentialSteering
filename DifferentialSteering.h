@@ -23,6 +23,7 @@ class DifferentialSteering
         void computeMotors(int XValue, int YValue);
         int computedLeftMotor();
         int computedRightMotor();
+        byte getComputeRange();
         String toString();
 };
 #endif

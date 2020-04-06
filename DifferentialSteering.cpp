@@ -48,7 +48,7 @@ int DifferentialSteering::computedRightMotor() {
     return m_rightMotor;
 }
 
-byte DifferentialSteering::getComputeRange() {
+int DifferentialSteering::getComputeRange() {
     return COMPUTERANGE;
 }
 

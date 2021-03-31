@@ -13,7 +13,7 @@ or directly writing the include statement in your code:
 The library works with [-127, 127] range, both the input and output methods, i. e., you will need to map your X,Y joystick values to [-127,127] prior the compute, and the result will also be in [-127, 127].
 
 ## Joystick library
-This sketch uses the [Joystick library](https://github.com/edumardo/Joystick) I wrote to control with a single dual axis joystick.
+The example sketch uses the [Joystick library](https://github.com/edumardo/Joystick) I wrote to control with a single dual axis joystick.
 
 ## Using the library
 In [examples/differentialSteringSingleJoystick.ino](examples/differentialSteringSingleJoystick.ino) yo can see the library in action.

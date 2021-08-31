@@ -1,8 +1,6 @@
 #ifndef DifferentialSteering_h
 #define DifferentialSteering_h
 
-#define COMPUTERANGE 127
-
 #include "Arduino.h"
 
 class DifferentialSteering
@@ -11,10 +9,11 @@ class DifferentialSteering
         int m_fPivYLimit;
         int m_leftMotor;
         int m_rightMotor;
+        int m_computeRange;
 
     public:
         DifferentialSteering();
-        void begin(int fPivYLimit);
+        void begin(int fPivYLimit, int computeRange = 127);
         void computeMotors(int XValue, int YValue);
         int computedLeftMotor();
         int computedRightMotor();

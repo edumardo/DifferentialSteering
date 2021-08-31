@@ -6,6 +6,7 @@
 DifferentialSteering::DifferentialSteering() {
     m_leftMotor = 0;
     m_rightMotor = 0;
+    m_computeRange = 127;
 }
 
 /**
@@ -13,38 +14,39 @@ DifferentialSteering::DifferentialSteering() {
  *
  * @param fPivYLimit: Threshold. Is measured in units on the Y-axis away from the X-axis (Y=0).
  *                    A greater value will assign more of the joystick's range to pivot actions.
- *                    Allowable range: (0..+127).
+ *                    Allowable range: (0..+m_computeRange).
  */
-void DifferentialSteering::begin(int fPivYLimit) {
+void DifferentialSteering::begin(int fPivYLimit, int computeRange = 127) {
     m_fPivYLimit = fPivYLimit;
+    m_computeRange = computeRange;
 }
 
 /**
  * Compute differential steering from (x,y) values.
  *
- * @param XValue: X value in [-127, 127] range.
- * @param YValue: Y value in [-127, 127] range.
+ * @param XValue: X value in [-m_computeRange, m_computeRange] range.
+ * @param YValue: Y value in [-m_computeRange, m_computeRange] range.
  */
 void DifferentialSteering::computeMotors(int XValue, int YValue) {
-    float   nMotPremixL = 0;    // Motor (left)  premixed output        (-127..+127)
-    float   nMotPremixR = 0;    // Motor (right) premixed output        (-127..+127)
-    int     nPivSpeed = 0;      // Pivot Speed                          (-127..+127)
+    float   nMotPremixL = 0;    // Motor (left)  premixed output        (-m_computeRange...+m_computeRange)
+    float   nMotPremixR = 0;    // Motor (right) premixed output        (-m_computeRange...+m_computeRange)
+    int     nPivSpeed = 0;      // Pivot Speed                          (-m_computeRange...+m_computeRange)
     float   fPivScale = 0;      // Balance scale b/w drive and pivot    (   0..1   )
 
     // Calculate Drive Turn output due to Joystick X input
     if (YValue >= 0) {
         // Forward
-        nMotPremixL = (XValue >= 0) ? COMPUTERANGE : (COMPUTERANGE + XValue);
-        nMotPremixR = (XValue >= 0) ? (COMPUTERANGE - XValue) : COMPUTERANGE;
+        nMotPremixL = (XValue >= 0) ? m_computeRange : (m_computeRange + XValue);
+        nMotPremixR = (XValue >= 0) ? (m_computeRange - XValue) : m_computeRange;
     } else {
         // Reverse
-        nMotPremixL = (XValue >= 0) ? (COMPUTERANGE - XValue) : COMPUTERANGE;
-        nMotPremixR = (XValue >= 0) ? COMPUTERANGE : (COMPUTERANGE + XValue);
+        nMotPremixL = (XValue >= 0) ? (m_computeRange - XValue) : m_computeRange;
+        nMotPremixR = (XValue >= 0) ? m_computeRange : (m_computeRange + XValue);
     }
 
     // Scale Drive output due to Joystick Y input (throttle)
-    nMotPremixL = nMotPremixL * YValue / COMPUTERANGE;
-    nMotPremixR = nMotPremixR * YValue / COMPUTERANGE;
+    nMotPremixL = nMotPremixL * YValue / m_computeRange;
+    nMotPremixR = nMotPremixR * YValue / m_computeRange;
 
     // Now calculate pivot amount
     // - Strength of pivot (nPivSpeed) based on Joystick X input
@@ -60,7 +62,7 @@ void DifferentialSteering::computeMotors(int XValue, int YValue) {
 /*
  * Returns the value of the left motor computed in computeMotors method.
  *
- * @return left computed motor, in [-127, 127] range.
+ * @return left computed motor, in [-m_computeRange, m_computeRange] range.
  */
 int DifferentialSteering::computedLeftMotor() {
     return m_leftMotor;
@@ -69,7 +71,7 @@ int DifferentialSteering::computedLeftMotor() {
 /*
  * Returns the value of the right motor computed in computeMotors method.
  *
- * @return right computed motor, in [-127, 127] range.
+ * @return right computed motor, in [-m_computeRange, m_computeRange] range.
  */
 int DifferentialSteering::computedRightMotor() {
     return m_rightMotor;
@@ -81,7 +83,7 @@ int DifferentialSteering::computedRightMotor() {
  * @return the compute range.
  */
 int DifferentialSteering::getComputeRange() {
-    return COMPUTERANGE;
+    return m_computeRange;
 }
 
 /*
@@ -91,5 +93,5 @@ int DifferentialSteering::getComputeRange() {
  */
 String DifferentialSteering::toString() {
     String str = "";
-    return (str + "Pivot threshold: " + m_fPivYLimit + " | Left Motor: " + m_leftMotor + " | Right Motor: " + m_rightMotor);
+    return (str + "Pivot threshold: " + m_fPivYLimit + " | Compute range: " + m_computeRange + " | Left Motor: " + m_leftMotor + " | Right Motor: " + m_rightMotor);
 }

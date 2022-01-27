@@ -10,7 +10,7 @@ or directly writing the include statement in your code:
 #include "DifferentialSteering.h"
 ```
 ## Features
-The library works with [-127, 127] range, both the input and output methods, i. e., you will need to map your X,Y joystick values to [-127,127] prior the compute, and the result will also be in [-127, 127].
+The library allows you tu use a custom range, `customRange`, for the input/output values, using [-customRange, customRange] range. Otherwise [-127, 127] will be the range, both input and output.
 
 ## Joystick library
 The example sketch uses the [Joystick library](https://github.com/edumardo/Joystick) I wrote to control with a single dual axis joystick.
@@ -18,13 +18,14 @@ The example sketch uses the [Joystick library](https://github.com/edumardo/Joyst
 ## Using the library
 In [examples/differentialSteringSingleJoystick.ino](examples/differentialSteringSingleJoystick.ino) yo can see the library in action.
 
-First, initialize a *DifferentialSteering* object with the proper pivot limit:
+First, initialize a *DifferentialSteering* object with the proper pivot limit and a custom range if applies:
 ```
     int fPivYLimit = 32;
+    int customRange = 255;
     DifferentialSteering DiffSteer;
 
     void setup () {
-        DiffSteer.begin(fPivYLimit);
+        DiffSteer.begin(fPivYLimit, customRange);
 ```
 Then, compute differential steering with the joystick outputs. Keep in mind that the inputs of *computeMotors* method have to be mapped to [-127, 127]:
 ```
